@@ -64,6 +64,7 @@ void ILI9341::init() {
     ILI9341::selectOFF();
 }
 
+// sur l'écran complet : 77ms à 16MHz
 void ILI9341::fillrect(unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, unsigned int c) {
     unsigned int y;
     ILI9341::selectON();
@@ -118,10 +119,10 @@ void ILI9341::drawLine(unsigned int x1, unsigned int y1, unsigned int x2, unsign
         } while (--y2 != 0);
     } else {
         int xinc, yinc, dx, dy, cumul;
-        dx = x2 - x1;
+        dx = (int)x2 - (int)x1;
         xinc = ( dx > 0 ) ? 1 : -1;
         if (dx < 0) dx = -dx;
-        dy = y2 - y1;
+        dy = (int)y2 - (int)y1;
         yinc = ( dy > 0 ) ? 1 : -1;
         if (dy < 0) dy = -dy;
         ILI9341::addr(x1, y1, 319, 239);
@@ -138,7 +139,7 @@ void ILI9341::drawLine(unsigned int x1, unsigned int y1, unsigned int x2, unsign
                     ILI9341::sendX(0x2B, y1);
                 }
                 ILI9341::sendX(0x2C, c);
-            } while (x1 < x2);
+            } while (x1 != x2);
         } else {
             cumul = dy >> 2;
             do {
@@ -151,7 +152,7 @@ void ILI9341::drawLine(unsigned int x1, unsigned int y1, unsigned int x2, unsign
                     ILI9341::sendX(0x2A, x1);
                 }
                 ILI9341::sendX(0x2C, c);
-            } while (y1 < y2);
+            } while (y1 != y2);
         }
     }
     ILI9341::selectOFF();
@@ -230,14 +231,13 @@ void ILI9341::drawBigChar(unsigned char p, unsigned int x, unsigned int y, unsig
             do {
                 if (valbis & 0x80) {
                     ILI9341::send16(f);
-                    __delay_cycles(12);
+                    __delay_cycles(8);
                     ILI9341::send16(f);
                 } else {
                     ILI9341::send16(b);
-                    __delay_cycles(12);
+                    __delay_cycles(8);
                     ILI9341::send16(b);
                 }
-                __delay_cycles(8);
                 valbis <<= 1;
             } while (--i != 0);
         } while (--bis != 0);
@@ -250,7 +250,10 @@ void ILI9341::drawTxt(unsigned char *p, unsigned int x, unsigned int y, unsigned
     unsigned int i = 0;
 
     while (p[i] != 0) {
-        if (size) ILI9341::drawBigChar(p[i++], x, y, f, b);
+        if (size) {
+            ILI9341::drawBigChar(p[i++], x, y, f, b);
+            x += 8;
+        }
         else ILI9341::drawChar(p[i++], x, y, f, b);
         x += 8;
     }
