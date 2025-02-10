@@ -20,3 +20,4 @@ Deux lignes de configuration :
  - #define WDTTIMER xx : xx représente la valeur à indiquer pour générer un reset si WDT::flag n'est pas
                          remis à zéro.
                          xx = temps(ms) / 1.953125
+                         valeur maximale : 65 535
