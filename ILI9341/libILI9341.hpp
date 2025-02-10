@@ -8,11 +8,6 @@
 #ifndef INCLUDE_LIBILI9341_HPP_
 #define INCLUDE_LIBILI9341_HPP_
 
-/*
- * Le module SPI DOIT ABSOLUMENT �tre � la m�me fr�quence que le processeur
- *
- * */
-
 #define ili9341SPIB0       // SPIA0 ou SPIB0
 #define ili9341rstP2       // rstP1, rstP2, rstP3
 #define ili9341RESET BIT5  // informer du bit connecté
