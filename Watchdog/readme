@@ -1,0 +1,4 @@
+
+La grande majorité du temps, le watchdog est stoppé.
+
+Afin de rendre utile cette fonction, cette librairie met en place un compteur permettant la gestion de la veille du MSP430 tout en offrant une gestion temporelle.
