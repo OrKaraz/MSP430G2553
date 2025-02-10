@@ -60,4 +60,4 @@ Pour dessiner :
  - ILI9341::rvb(rouge, vert, bleu);
       * renvoie le code rouge/vert/bleu 3 octets en format 16 bits
 
-Il est possible d'utiliser les autres fonction si vous comprenez comment elles fonctionnent et qu'elles vous sont utiles.
+Il est possible d'utiliser les autres fonctions si vous comprenez comment elles fonctionnent et qu'elles vous sont utiles.
