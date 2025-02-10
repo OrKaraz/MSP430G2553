@@ -1,5 +1,7 @@
 Vous trouverez ici les difféentes mesures effectuées.
 
 Le fichier "Time capture.sal" contient la base de mesure des vitesses de passage des instructions vers l'écran.
+Lien vers "Logic 2", logiciel de SALEAE : https://support.saleae.com/logic-software/sw-download
+Pas besoin de l'oscilloscope pour ouvrir le fichier.
 
 Avec, une photo de l'écran en fonction et du fichier main.cpp (d'une radiocommande) qui à permit de tester.
