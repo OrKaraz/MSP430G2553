@@ -1,4 +1,22 @@
 
 La grande majorité du temps, le watchdog est stoppé.
 
-Afin de rendre utile cette fonction, cette librairie met en place un compteur permettant la gestion de la veille du MSP430 tout en offrant une gestion temporelle.
+Afin de rendre utile cette fonction, cette librairie met en place un compteur permettant la gestion
+de la veille du MSP430 tout en offrant une gestion temporelle.
+
+Utilisation :
+-------------
+
+WDT::init;    // initialisation et remise à zéro du timer
+WDT::flag;    // registre pour connaître la situation actuelle
+LPM0;         // met le MicroC en pause (réveil après ~2ms)
+
+Dans le fichier .hpp :
+----------------------
+
+Deux lignes de configuration :
+ - #define SECURITE    : si non commentée, cette ligne permet de mettre en place une sécurité d'activité
+                         (principe du watchdog classic)
+ - #define WDTTIMER xx : xx représente la valeur à indiquer pour générer un reset si WDT::flag n'est pas
+                         remis à zéro.
+                         xx = temps(ms) / 1.953125
