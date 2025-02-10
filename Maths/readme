@@ -1,0 +1,24 @@
+
+Librairie de calcul mathématique hors des capacités du compilateur.
+
+Fonction mDivR :
+----------------
+
+Deux paramètres unsigned int (Dividende, Diviseur)
+
+Opération : Dividende / Diviseur
+
+Retourne : structure mDIVrRET { quotient , reste }
+
+Permet une division de 2 entiers positifs de 16 bits en environ 10 micro secondes.
+
+Fonction mMult :
+----------------
+
+Deux paramètres unsigned int.
+
+Opération : a * b
+
+Retourne unsigned long
+
+A été créée pour combler l'invisibilité des fonctions du compilateur.
