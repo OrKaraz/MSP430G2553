@@ -9,7 +9,7 @@ DCO::init( fréquence voulue / 4096 , delta erreur fréquence / 4096);    // les
 Pour récupérer la fréquence active :
 ------------------------------------
 
-DCO::getMCLK();    // retourne un non signé long
+DCO::getMCLK();    // retourne un non signé long, environ 0.4 micro secondes
 
 Temps d'exécution :
 -------------------
