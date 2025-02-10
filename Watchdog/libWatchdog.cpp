@@ -5,24 +5,6 @@
  *      Author: david
  */
 
-/*
- * Librairie permettant une pause de 1,953125ms sous LPM0
- * 512 pulses par secondes
- *
- * utilisation si pause de 2ms :
- *      WDT::init();
- *      WDT::flag = 0;
- *      LPM0;
- *
- * utilisation si pause de plus de 2ms : (prendre la valeur entière immédiatement supérieur)
- *      WDT::init();
- *      WDT::flag = 0;
- *      do {
- *          LPM0;                      //      pause en ms
- *      } while (WDT::flag < x);       // x =  -----------
- *                                     //       1.953125
-*/
-
 #include <libWatchdog.hpp>
 
 void WDT::init() {
@@ -35,6 +17,9 @@ void WDT::init() {
 #pragma vector=WDT_VECTOR
 __interrupt void WDT::WDTInterrupt() {
     WDT::flag++;
+#ifdef SECURITE
+    if (WDT::flag == WDTTIMER) WDTCTL = 0;
+#endif
     //__bic_SR_register_on_exit(LPM0_bits);
     LPM0_EXIT;
 }
