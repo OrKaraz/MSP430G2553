@@ -6,7 +6,7 @@ Chaque morceau de code est vérifié en assembleur afin de garantir une vitesse 
 Option de compilateur testé : -o2 -mf0
 
 A venir : (ordre non contractuel)
-- finalisation de la librairie ILI9341
+- finalisation de la librairie ILI9341 avec image et data des performances (logiciel Logic de SALEAE)
 - ajout de la librairie NRF24
 - ajout de la librairie sur les communications UART/SPI/I2C
 - ajout de la librairie sur les ports 1, 2 et 3
