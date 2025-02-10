@@ -102,7 +102,8 @@ void ILI9341::drawLine(unsigned int x1, unsigned int y1, unsigned int x2, unsign
             x2 = x1;
             x1 = t;
         }
-        x2 -= x1 - 1;
+        x2 -= x1;
+        x2 += 2;
         do {
             ILI9341::send16(c);
         } while (--x2 != 0);
@@ -113,7 +114,8 @@ void ILI9341::drawLine(unsigned int x1, unsigned int y1, unsigned int x2, unsign
             y2 = y1;
             y1 = t;
         }
-        y2 -= y1 - 1;
+        y2 -= y1;
+        y2 += 2;
         do {
             ILI9341::send16(c);
         } while (--y2 != 0);
