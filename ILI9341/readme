@@ -3,6 +3,9 @@ Librairie à haute performance de gestion de l'écran 320*240 pixels sous contr�
 L'horloge secondaire DOIT être de la même fréquence que le processeur durant le travail.
 
 Paramétrisation : à la compilation
+Besoin de :
+ - libWatchdog
+ - libMaths
 
 Dans le fichier .hpp :
  - ili9341SPIB0       : remplacer le B par A suivant où est connecté l'écran
@@ -20,13 +23,41 @@ ILI9341::init();    // première instruction obligatoire
 
 Pour dessiner :
  - ILI9341::fillrect(x1, y1, x2, y2, c);
+      * Dessine un rectangle de couleur unique
         - x1 : coordonnée en X en haut à gauche
         - y1 : coordonnée en Y en haut à gauche
         - x2 : coordonnée en X en bas à droite
         - y2 : coordonnée en Y en bas à droite
- - ILI9341::drawLine();
- - ILI9341::drawInt();
- - ILI9341::drawChar();
- - ILI9341::drawBigChar();
- - ILI9341::drawTxt();
- - ILI9341::rvb();
+        - c : couleur sur 16 bits à utiliser
+      * Si les points sont inversés, il y a une correction de faite
+ - ILI9341::drawLine(x1, y1, x2, y2, c);
+      * Dessine une ligne
+        - {x1, y1} : point de départ
+        - {x2, y2} : point d'arrivée
+        - c : couleur sur 16 bits à utiliser
+ - ILI9341::drawInt(p, x, y, f, b, s);
+      * Dessine un entier positif
+        - p : valeur non signée sur 16 bits à afficher
+        - {x, y} : position gauche du premier chiffre ou droite du dernier chiffre
+        - f : couleur des chiffres
+        - b : couleur de l'arrière plan
+        - s : alignement à gauche (0) ou à droite (1)
+ - ILI9341::drawChar(p, x, y, f, b);
+      * affiche un caractère qu format 8*12
+        - p : valeur non signée du caractère à afficher (table ASCII)
+        - {x, y} : position (coin haut gauche du caractère)
+        - f : couleur d'affichage
+        - b : couleur de l'arrière plan
+ - ILI9341::drawBigChar(p, x, y, f, b);
+      * pareil que drawChar mais au format 16*24
+ - ILI9341::drawTxt(p, x, y, f, b, size);
+      * Affiche un texte entier (principe de printf)
+        - p : pointe vers le début de la chaîne
+        - {x, y} : position (coin haut gauche du premier caractère)
+        - f : couleur d'affichage
+        - b : couleur de l'arrière plan
+        - size : taille (0 : petit, 1 : grand)
+ - ILI9341::rvb(rouge, vert, bleu);
+      * renvoie le code rouge/vert/bleu 3 octets en format 16 bits
+
+Il est possible d'utiliser les autres fonction si vous comprenez comment elles fonctionnent et qu'elles vous sont utiles.
