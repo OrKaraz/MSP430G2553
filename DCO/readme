@@ -1,0 +1,19 @@
+
+Cette librairie permet de définir la fréquence processeur durant l'exécution du programme.
+
+Pour l'utiliser :
+-----------------
+
+DCO::init( fréquence voulue / 4096 , delta erreur fréquence / 4096);    // les fréquences en Hz
+
+Pour récupérer la fréquence active :
+------------------------------------
+
+DCO::getMCLK();    // retourne un non signé long
+
+Temps d'exécution :
+-------------------
+
+0.5ms pour un passage de 1MHz au démarrage vers du 16MHz.
+Attention, ces fonctions utilise le timer A0. Son statut est restauré mais le fonctionnement global d'un système peut s'en trouver perturbé.
+Exemple : PWM avec TIMERA1
