@@ -1,0 +1,6 @@
+
+Librairie à haute performance de gestion de l'écran 320*240 pixels sous contrôleur ILI9341.
+L'horloge secondaire DOIT être de la même fréquence que le processeur durant le travail.
+
+N'étant pas finalisée, elle n'est pour le moment pas commentée.
+
