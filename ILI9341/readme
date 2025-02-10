@@ -2,5 +2,31 @@
 Librairie à haute performance de gestion de l'écran 320*240 pixels sous contrôleur ILI9341.
 L'horloge secondaire DOIT être de la même fréquence que le processeur durant le travail.
 
-N'étant pas finalisée, elle n'est pour le moment pas commentée.
+Paramétrisation : à la compilation
 
+Dans le fichier .hpp :
+ - ili9341SPIB0       : remplacer le B par A suivant où est connecté l'écran
+ - ili9341rstP2       : changer le dernier chiffre en fonction de quel port est branché le reset de l'écran. Ici port 2
+ - ili9341RESET BIT5  : indiquer le numéro de la broche où est connecté le reset. Ici broche 5 (attention le numérotage commence à 0)
+ - ili9341comP2       : changer le dernier chiffre en fonction de quel port est branché le DC de l'écran. Ici port 2
+ - ili9341COMP BIT1   : indiquer le numéro de la broche où est connecté le reset. Ici broche 1
+ - ili9341selP2       : changer le dernier chiffre en fonction de quel port est branché le CS (ship select) de l'écran. Ici port 2
+ - ili9341SELECT BIT0 : indiquer le numéro de la broche où est connecté le reset. Ici broche 0
+
+Pour utiliser le tout :
+-----------------------
+
+ILI9341::init();    // première instruction obligatoire
+
+Pour dessiner :
+ - ILI9341::fillrect(x1, y1, x2, y2, c);
+        - x1 : coordonnée en X en haut à gauche
+        - y1 : coordonnée en Y en haut à gauche
+        - x2 : coordonnée en X en bas à droite
+        - y2 : coordonnée en Y en bas à droite
+ - ILI9341::drawLine();
+ - ILI9341::drawInt();
+ - ILI9341::drawChar();
+ - ILI9341::drawBigChar();
+ - ILI9341::drawTxt();
+ - ILI9341::rvb();
