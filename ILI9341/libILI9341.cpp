@@ -5,7 +5,6 @@
  *      Author: david
  */
 
-#include "msp430g2553.h"
 #include <libILI9341.hpp>
 
 unsigned char saveSMCLK;
