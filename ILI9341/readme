@@ -1,6 +1,22 @@
 
 Librairie à haute performance de gestion de l'écran 320*240 pixels sous contrôleur ILI9341.
 
+  / \
+ / | \
+/  .  \
+-------
+ATTENTION : Si une communication devait se faire durant les calculs de l'écran :
+                - Veillez à attendre la fin de transmission
+                - Mettez le CS à 1 : ILI9341::selectOFF();
+                - envoyer vos instructions
+                - mettez le CS à 0 : ILI9341::selectON();
+                - mettez vous en mode Command : ILI9341:cmdON();
+                - utilisez la fonction ILI9341::send(0x2C);
+                - stopper le mode Commande : ILI9341:cmdOFF();
+                - espérer que l'interruption se soit passé durant l'affichage des pixels à la fin de l'envoi d'un pixel entier.
+Dans l'idéal, aucune interruption de communication ne doit se faire durant les calculs de l'écran.
+Toute autre interruption peut se faire tant que le SPI utilisé par l'écran n'est pas utilisé.
+
 Paramétrisation : à la compilation
 Besoin de :
  - libWatchdog
