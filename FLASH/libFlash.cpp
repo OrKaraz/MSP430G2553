@@ -34,7 +34,7 @@ unsigned char FLASH::getFlash(unsigned char pos) {
     return 1;
 }
 
-unsigned char FLASH::save(unsigned char pos) {
+unsigned char FLASH::saveFlash(unsigned char pos) {
     unsigned int sWDTCTL = WDTCTL & 0x00FF;
     unsigned int *ptr;
     unsigned char i;
