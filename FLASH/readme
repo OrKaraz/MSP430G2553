@@ -1,5 +1,20 @@
 
 Simplification de la gestion de l'écriture des 3 banques de mémoire de la flash du MSP430G2553.
 
-Une variable de donnée : FLASH::liste[]
+Une variable de donnée : FLASH::liste
+Son format est variable :
+ - FLASH::liste.ui[32] pour le cas d'entier non signé
+ - FLASH::liste.i[32] pour le cas d'entier signé
+ - FLASH::liste.uc[64] pour une liste d'octet non signé
+ - FLASH::liste.c[64] pour une liste d'octet signé
 
+ATTENTION, le format variable signifi que l'emplacement mémoire est le même mais les données sont
+interprétées différemment.
+Si FLASH::liste.ui[1] = 1, alors FLASH::liste.i[1] = 1
+Si FLASH::liste.ui[0] = 0xFF00, alors FLASH::liste.uc[0] = 0 et FLASH::liste.uc[1] = 0xFF
+
+Pour récupérer la mémoire flash : FLASH::getFlash(pos)
+  - pos = FLASHB, FLASHC, FLASHD suivant celle que l'on veut utiliser
+
+Pour enregistrer : FLASH::saveFlash(pos)
+  - pos = FLASHB, FLASHC, FLASHD suivant celle que l'on veut utiliser
