@@ -9,5 +9,4 @@ Option de compilateur testé : -o2 -mf0
 
 A venir : (ordre non contractuel)
 - ajout de la librairie NRF24
-- ajout de la librairie de gestion de la mémoire flash (banque B, C et D)
 - ajout de la librairie de gestion de l'ADC10
