@@ -385,16 +385,6 @@ inline void ILI9341::selectON() {
 #endif
 }
 inline void ILI9341::selectOFF() {
-    BCSCTL2 = saveSMCLK; // restauration de l'état de SMCLK
-#ifdef ili9341SPIA0
-    UCA0BR0 = savePrescal & 0x00FF;
-    UCA0BR1 = (savePrescal >> 8);
-#endif
-#ifdef ili9341SPIB0
-    UCB0BR0 = savePrescal & 0x00FF;
-    UCB0BR1 = (savePrescal >> 8);
-#endif
-
 #ifdef ili9341selP1
     P1OUT |= ili9341SELECT;
 #endif
@@ -403,5 +393,15 @@ inline void ILI9341::selectOFF() {
 #endif
 #ifdef ili9341selP3
     P3OUT |= ili9341SELECT;
+#endif
+
+    BCSCTL2 = saveSMCLK; // restauration de l'état de SMCLK
+#ifdef ili9341SPIA0
+    UCA0BR0 = savePrescal & 0x00FF;
+    UCA0BR1 = (savePrescal >> 8);
+#endif
+#ifdef ili9341SPIB0
+    UCB0BR0 = savePrescal & 0x00FF;
+    UCB0BR1 = (savePrescal >> 8);
 #endif
 }
