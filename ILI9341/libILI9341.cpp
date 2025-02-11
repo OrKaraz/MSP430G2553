@@ -5,7 +5,11 @@
  *      Author: david
  */
 
+#include "msp430g2553.h"
 #include <libILI9341.hpp>
+
+unsigned char saveSMCLK;
+unsigned int savePrescal;
 
 void ILI9341::init() {
     unsigned int pos;
@@ -357,6 +361,19 @@ inline void ILI9341::cmdOFF() {
 }
 
 inline void ILI9341::selectON() {
+    saveSMCLK = BCSCTL2;
+    BCSCTL2 &= 0xF1;  // désactivation du potentiel diviseur de SMCLK et utilisation de DCO
+#ifdef ili9341SPIA0
+    savePrescal = UCA0BR0 | (UCA0BR1 << 8);
+    UCA0BR0 = 0;
+    UCA0BR1 = 0;
+#endif
+#ifdef ili9341SPIB0
+    savePrescal = UCB0BR0 | (UCB0BR1 << 8);
+    UCB0BR0 = 0;
+    UCB0BR1 = 0;
+#endif
+
 #ifdef ili9341selP1
     P1OUT &= ~ili9341SELECT;
 #endif
@@ -368,6 +385,16 @@ inline void ILI9341::selectON() {
 #endif
 }
 inline void ILI9341::selectOFF() {
+    BCSCTL2 = saveSMCLK; // restauration de l'état de SMCLK
+#ifdef ili9341SPIA0
+    UCA0BR0 = savePrescal & 0x00FF;
+    UCA0BR1 = (savePrescal >> 8);
+#endif
+#ifdef ili9341SPIB0
+    UCB0BR0 = savePrescal & 0x00FF;
+    UCB0BR1 = (savePrescal >> 8);
+#endif
+
 #ifdef ili9341selP1
     P1OUT |= ili9341SELECT;
 #endif
