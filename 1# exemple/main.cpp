@@ -10,7 +10,6 @@
 #include <libWatchdog.hpp>
 #include <libPORT.hpp>
 #include <libDCO.hpp>
-#include <libADC10.hpp>
 #include <libFlash.hpp>
 #include <libCOM.hpp>
 
@@ -31,7 +30,6 @@ void main(void) {
     FLASH::getFlash(FLASHD);
 
     ILI9341::init();
-    ADC10::init();
 
     l = 239;
     do {
