@@ -26,7 +26,7 @@ unsigned char FLASH::getFlash(unsigned char pos) {
 
     i = 0;
     while (i < 32) {
-        FLASH::liste[i].ui= *ptr;             // récupère la mémoire flash
+        FLASH::liste.ui[i]= *ptr;             // récupère la mémoire flash
         ptr += 2;
         i++;
     }
@@ -71,7 +71,7 @@ unsigned char FLASH::save(unsigned char pos) {
 
     i = 0;
     while (i < 32) {
-        *ptr = FLASH::liste[i].ui;             // écrit la flash
+        *ptr = FLASH::liste.ui[i];             // écrit la flash
         ptr += 2;
         i++;
     }
