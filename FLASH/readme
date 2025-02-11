@@ -1,0 +1,5 @@
+
+Simplification de la gestion de l'écriture des 3 banques de mémoire de la flash du MSP430G2553.
+
+Une variable de donnée : FLASH::liste[]
+
