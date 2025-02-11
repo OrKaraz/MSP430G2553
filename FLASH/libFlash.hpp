@@ -29,7 +29,7 @@ namespace FLASH {
     } typeint;
 
     unsigned char getFlash(unsigned char pos);
-    unsigned char save(unsigned char pos);
+    unsigned char saveFlash(unsigned char pos);
 
     typeint liste;
 };
