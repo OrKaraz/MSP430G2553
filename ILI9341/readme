@@ -21,8 +21,10 @@ Pour utiliser le tout :
 
 ILI9341::init();    // première instruction obligatoire
 
+Toutes les indications de temps sont pour une fréquence MCLK de 16MHz.
+
 Pour dessiner :
- - ILI9341::fillrect(x1, y1, x2, y2, c);
+ - ILI9341::fillrect(x1, y1, x2, y2, c);          // 77ms sur 240*320 pixels
       * Dessine un rectangle de couleur unique
         - x1 : coordonnée en X en haut à gauche
         - y1 : coordonnée en Y en haut à gauche
@@ -35,7 +37,7 @@ Pour dessiner :
         - {x1, y1} : point de départ
         - {x2, y2} : point d'arrivée
         - c : couleur sur 16 bits à utiliser
- - ILI9341::drawInt(p, x, y, f, b, s);
+ - ILI9341::drawInt(p, x, y, f, b, s);           // 
       * Dessine un entier positif
         - p : valeur non signée sur 16 bits à afficher
         - {x, y} : position gauche du premier chiffre ou droite du dernier chiffre
