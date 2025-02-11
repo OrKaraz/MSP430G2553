@@ -22,16 +22,16 @@ Vitesse d'écriture :   257kHz -> 476kHz
 
 namespace FLASH {
     typedef union {
-        unsigned int ui;
-        int i;
-        unsigned char uc[2];
-        signed char c[2];
+        unsigned int ui[32];
+        int i[32];
+        unsigned char uc[64];
+        signed char c[64];
     } typeint;
 
     unsigned char getFlash(unsigned char pos);
     unsigned char save(unsigned char pos);
 
-    typeint liste[32];
+    typeint liste;
 };
 
 #endif /* INCLUDE_LIBFLASH_HPP_ */
