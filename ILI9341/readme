@@ -1,6 +1,5 @@
 
 Librairie à haute performance de gestion de l'écran 320*240 pixels sous contrôleur ILI9341.
-L'horloge secondaire DOIT être de la même fréquence que le processeur durant le travail.
 
 Paramétrisation : à la compilation
 Besoin de :
@@ -37,20 +36,20 @@ Pour dessiner :
         - {x1, y1} : point de départ
         - {x2, y2} : point d'arrivée
         - c : couleur sur 16 bits à utiliser
- - ILI9341::drawInt(p, x, y, f, b, s);           // 
+ - ILI9341::drawInt(p, x, y, f, b, s);           // 0.77ms pour 5 chiffres
       * Dessine un entier positif
         - p : valeur non signée sur 16 bits à afficher
         - {x, y} : position gauche du premier chiffre ou droite du dernier chiffre
         - f : couleur des chiffres
         - b : couleur de l'arrière plan
         - s : alignement à gauche (0) ou à droite (1)
- - ILI9341::drawChar(p, x, y, f, b);
+ - ILI9341::drawChar(p, x, y, f, b);              // 0.14ms
       * affiche un caractère qu format 8*12
         - p : valeur non signée du caractère à afficher (table ASCII)
         - {x, y} : position (coin haut gauche du caractère)
         - f : couleur d'affichage
         - b : couleur de l'arrière plan
- - ILI9341::drawBigChar(p, x, y, f, b);
+ - ILI9341::drawBigChar(p, x, y, f, b);           // 0.45ms
       * pareil que drawChar mais au format 16*24
  - ILI9341::drawTxt(p, x, y, f, b, size);
       * Affiche un texte entier (principe de printf)
