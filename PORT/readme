@@ -1,0 +1,16 @@
+
+Gestion simplifiée de l'initialisation des ports du MSP430G2553.
+
+Configuration :
+---------------
+
+Dans le fichier .hpp, décommenter les éléments souhaité.
+
+Exemple : besoin d'utiliser le SPIB -> enlever le commentaire devant le #define SPIB
+
+Initialisation :
+----------------
+
+PORT::init(P1, P2, P3);
+    - P1, P2, P3 : bits des broches souhaitées en sortie
+      * exemple : 0b00110000  ou  BIT4|BIT5  ou  0x30
