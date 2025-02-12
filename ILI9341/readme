@@ -5,7 +5,7 @@ Librairie à haute performance de gestion de l'écran 320*240 pixels sous contr�
  / | \
 /  .  \
 -------
-ATTENTION : Si une communication devait se faire durant les calculs de l'écran :
+ATTENTION : Si une communication devait se faire avec le même SPI durant les calculs de l'écran :
                 - Veillez à attendre la fin de transmission
                 - Mettez le CS à 1 : ILI9341::selectOFF();
                 - envoyer vos instructions
