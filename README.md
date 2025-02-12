@@ -1,6 +1,7 @@
 // ** En cours de création ** //
 
 IDE de développement : Code Composer Studio
+
 Gratuit depuis de nombreuses années et qui offre plus de flexibilité qu'Energia.
 
 Cet ensemble de fichier regroupe plusieurs librairies à haute efficacité pour le microcontrôleur MSP430G2553.
