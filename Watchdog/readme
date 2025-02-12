@@ -25,6 +25,6 @@ Deux lignes de configuration :
 Impact :
 --------
 
-Maximum de (32 / fDCO) micro secondes par interruption.
-(16 384 / fDCO) d'occupé sur une seconde.
+Maximum de (32 / fDCO) microsecondes par interruption.
+(16,384 / fDCO) millisecondes d'occupé sur une seconde.
 fDCO exprimé en MHz.
