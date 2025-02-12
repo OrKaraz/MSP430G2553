@@ -5,7 +5,6 @@
  *      Author: david
  */
 
-#include "msp430g2553.h"
 #include <libILI9341.hpp>
 
 unsigned char saveSMCLK;
@@ -174,6 +173,8 @@ void ILI9341::drawInt(unsigned int p,
     unsigned char iliste[5];
     unsigned int i = 5;
     mDIVrRET v;
+
+    ILI9341::selectON();
     v.quotient = p;
     if (a) {
         do {
@@ -205,13 +206,27 @@ void ILI9341::drawInt(unsigned int p,
             x += 8;
         } while (i != 0);
     }
+    ILI9341::selectOFF();
 }
 
+void ILI9341::drawTxt(unsigned char *p, unsigned int x, unsigned int y, unsigned int f, unsigned int b, unsigned char size) {
+    unsigned int i = 0;
+
+    ILI9341::selectON();
+    while (p[i] != 0) {
+        if (size) {
+            ILI9341::drawBigChar(p[i++], x, y, f, b);
+            x += 8;
+        }
+        else ILI9341::drawChar(p[i++], x, y, f, b);
+        x += 8;
+    }
+    ILI9341::selectOFF();
+}
 void ILI9341::drawChar(unsigned char p, unsigned int x, unsigned int y, unsigned int f, unsigned int b) {
     unsigned char i, j, *pos = (unsigned char *)ILI9341::tChar;
     unsigned char val;
 
-    ILI9341::selectON();
     ILI9341::addr(x, y, x+7, y+11);
 
     j = 12;
@@ -229,15 +244,12 @@ void ILI9341::drawChar(unsigned char p, unsigned int x, unsigned int y, unsigned
             val <<= 1;
         } while (--i != 0);
     } while (--j != 0);
-
-    ILI9341::selectOFF();
 }
 
 void ILI9341::drawBigChar(unsigned char p, unsigned int x, unsigned int y, unsigned int f, unsigned int b) {
     unsigned char i, j, *pos = (unsigned char *)ILI9341::tChar;
     unsigned char val;
 
-    ILI9341::selectON();
     ILI9341::addr(x, y, x+15, y+23);
 
     j = 12;
@@ -264,21 +276,6 @@ void ILI9341::drawBigChar(unsigned char p, unsigned int x, unsigned int y, unsig
             } while (--i != 0);
         } while (--bis != 0);
     } while (--j != 0);
-
-    ILI9341::selectOFF();
-}
-
-void ILI9341::drawTxt(unsigned char *p, unsigned int x, unsigned int y, unsigned int f, unsigned int b, unsigned char size) {
-    unsigned int i = 0;
-
-    while (p[i] != 0) {
-        if (size) {
-            ILI9341::drawBigChar(p[i++], x, y, f, b);
-            x += 8;
-        }
-        else ILI9341::drawChar(p[i++], x, y, f, b);
-        x += 8;
-    }
 }
 
 unsigned int ILI9341::rvb(unsigned char r, unsigned char v, unsigned char b) {
