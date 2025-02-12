@@ -378,7 +378,7 @@ void ILI9341::selectON() {
     BCSCTL2 &= 0xF1;  // désactivation du potentiel diviseur de SMCLK et utilisation de DCO
 #ifdef ili9341SPIA0
     saveUCCTL1 = UCA0CTL1;
-    UCA0CTL1 &= 0x01;
+    UCA0CTL1 |= 0xC0;
     savePrescal = UCA0BR0 | (UCA0BR1 << 8);
     UCA0BR0 = 1;
     UCA0BR1 = 0;
