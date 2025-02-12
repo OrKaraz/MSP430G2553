@@ -24,12 +24,13 @@ namespace ILI9341 {
     void init();
     void addr(unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2);
 
-    void fillrect(unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, unsigned int c);
-    void drawLine(unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, unsigned int c);
-    void drawInt(unsigned int p, unsigned int x, unsigned int y, unsigned int f, unsigned int b, unsigned char s);  // s = 1 : align� � droite
-    void drawChar(unsigned char p, unsigned int x, unsigned int y, unsigned int f, unsigned int b);
-    void drawBigChar(unsigned char p, unsigned int x, unsigned int y, unsigned int f, unsigned int b);
-    void drawTxt(unsigned char *p, unsigned int x, unsigned int y, unsigned int f, unsigned int b, unsigned char size);
+    void fillrect(unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, unsigned int c = 0);
+    void drawLine(unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, unsigned int c = 0xFFFF);
+    void drawInt(unsigned int p, unsigned int x, unsigned int y, unsigned int f = 0xFFFF, unsigned int b = 0, unsigned char a = 0, unsigned char size = 0);
+                                                                 // s = 1 : aligné à droite
+    void drawChar(unsigned char p, unsigned int x, unsigned int y, unsigned int f = 0xFFFF, unsigned int b = 0);
+    void drawBigChar(unsigned char p, unsigned int x, unsigned int y, unsigned int f = 0xFFFF, unsigned int b = 0);
+    void drawTxt(unsigned char *p, unsigned int x, unsigned int y, unsigned int f = 0xFFFF, unsigned int b = 0, unsigned char size = 0);
 
     unsigned int rvb(unsigned char r, unsigned char v, unsigned char b);
 
@@ -42,7 +43,7 @@ namespace ILI9341 {
     inline void rstOFF();
     inline void cmdON();    // mode commande
     inline void cmdOFF();
-    inline void selectON(); // selectionner l'�cran
+    inline void selectON(); // selectionner l'écran
     inline void selectOFF();
 
     const unsigned char tInitScreen[101] = {
