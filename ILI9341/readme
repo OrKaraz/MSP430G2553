@@ -66,7 +66,7 @@ Pour dessiner :
         - {x, y} : position (coin haut gauche du caractère)
         - f : couleur d'affichage
         - b : couleur de l'arrière plan
- - ILI9341::drawBigChar(p, x, y, f, b);           // 0.45ms
+ - ILI9341::drawBigChar(p, x, y, f, b);           // 0.5ms
       * pareil que drawChar mais au format 16*24
  - ILI9341::drawTxt(p, x, y, f, b, size);
       * Affiche un texte entier (principe de printf)
