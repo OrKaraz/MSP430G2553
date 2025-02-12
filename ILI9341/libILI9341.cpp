@@ -380,14 +380,14 @@ void ILI9341::selectON() {
     saveUCCTL1 = UCA0CTL1;
     UCA0CTL1 &= 0x01;
     savePrescal = UCA0BR0 | (UCA0BR1 << 8);
-    UCA0BR0 = 0;
+    UCA0BR0 = 1;
     UCA0BR1 = 0;
 #endif
 #ifdef ili9341SPIB0
     saveUCCTL1 = UCB0CTL1;
-    UCB0CTL1 &= 0x01;
+    UCB0CTL1 |= 0xC0;
     savePrescal = UCB0BR0 | (UCB0BR1 << 8);
-    UCB0BR0 = 0;
+    UCB0BR0 = 1;
     UCB0BR1 = 0;
 #endif
 
