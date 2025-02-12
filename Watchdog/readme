@@ -21,3 +21,8 @@ Deux lignes de configuration :
                          remis à zéro.
                          xx = temps(ms) / 1.953125
                          valeur maximale : 65 535
+
+Impact :
+--------
+
+Maximum 2 microsecondes par interrution. 1ms d'occupée sur 1 seconde.
