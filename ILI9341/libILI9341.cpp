@@ -163,17 +163,26 @@ void ILI9341::drawLine(unsigned int x1, unsigned int y1, unsigned int x2, unsign
     ILI9341::selectOFF();
 }
 
-void ILI9341::drawInt(unsigned int p, unsigned int x, unsigned int y, unsigned int f, unsigned int b, unsigned char s) {
-    // s = 0 : alignement à gauche
-    // s = 1 : alignement à droite
+void ILI9341::drawInt(unsigned int p,
+                        unsigned int x, unsigned int y,
+                        unsigned int f, unsigned int b,
+                        unsigned char a, unsigned char size) {
+    // a = 0 : alignement à gauche
+    // a = 1 : alignement à droite
     unsigned char iliste[5];
     unsigned int i = 5;
     mDIVrRET v;
     v.quotient = p;
-    if (s) {
+    if (a) {
         do {
             v = mDivR(v.quotient, 10);
-            ILI9341::drawChar(v.reste + 0x30, x, y, f, b);
+            v.reste += 0x30;
+            if (size) {
+                ILI9341::drawBigChar(v.reste, x, y, f, b);
+                x -= 8;
+            } else {
+                ILI9341::drawChar(v.reste, x, y, f, b);
+            }
             x -= 8;
         } while (v.quotient != 0);
     } else {
@@ -184,7 +193,13 @@ void ILI9341::drawInt(unsigned int p, unsigned int x, unsigned int y, unsigned i
             i++;
         } while (v.quotient != 0);
         do {
-            ILI9341::drawChar(iliste[--i], x, y, f, b);
+            unsigned char car = iliste[--i];
+            if (size) {
+                ILI9341::drawBigChar(car, x, y, f, b);
+                x += 8;
+            } else {
+                ILI9341::drawChar(car, x, y, f, b);
+            }
             x += 8;
         } while (i != 0);
     }
