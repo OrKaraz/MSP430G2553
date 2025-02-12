@@ -36,6 +36,9 @@ namespace ILI9341 {
 
     void sendX(unsigned char val, unsigned int x);
 
+    void selectON(); // selectionner l'écran
+    void selectOFF();
+
     inline void send(unsigned char s);
     inline void send16(unsigned int s);
 
@@ -43,8 +46,6 @@ namespace ILI9341 {
     inline void rstOFF();
     inline void cmdON();    // mode commande
     inline void cmdOFF();
-    inline void selectON(); // selectionner l'écran
-    inline void selectOFF();
 
     const unsigned char tInitScreen[101] = {
             19,   // nombre de ligne de commande
