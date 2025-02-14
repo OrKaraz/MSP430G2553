@@ -3,7 +3,7 @@ Librairie à haute performance de gestion de l'écran 320*240 pixels sous contr�
 
 Veuillez ne pas utiliser SMCLK pour des timers ou autre durant les calculs d'affichage.
 La librairie change les réglages de l'horloge secondaire pour les restaurer par la suite.
-Si vous ne voulez pas avoir d'impact, utilisez SMCLK à la même fréquence que MCLK.
+Si vous ne voulez pas avoir d'impact, utilisez SMCLK à la même fréquence que MCLK. (DIVS = 1)
 
   / \
  / | \
