@@ -56,7 +56,6 @@ void main(void) {
         unsigned int y;
         // début de calcul de la charge de travail
         WDT::init();
-        WDT::flag = 0;
         // faire des actions
 
         ILI9341::drawInt(deadTime, 311, 228, 0xFFFF, 0x0000, 1);
