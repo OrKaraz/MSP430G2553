@@ -9,11 +9,11 @@
 #define INCLUDE_LIBILI9341_HPP_
 
 #define ili9341SPIB0       // SPIA0 ou SPIB0
-#define ili9341rstP2       // rstP1, rstP2, rstP3
+#define ili9341rstP2       // ili9341rstPx : x étant le port (1, 2, 3) utilisé pour le Reset
 #define ili9341RESET BIT5  // informer du bit connecté
-#define ili9341comP2       // comP1, comP2, comP3  (port commande ou data)
+#define ili9341comP2       // ili9341comPx : x étant le port (1, 2, 3) utilisé pour le DC
 #define ili9341COMP BIT1   // bit du port com
-#define ili9341selP2       // port du SELECT
+#define ili9341selP2       // ili9341selPx : x étant le port (1, 2, 3) utilisé pour le CS
 #define ili9341SELECT BIT0 // bit CS
 
 #include <msp430.h>
