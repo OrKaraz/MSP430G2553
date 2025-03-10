@@ -7,9 +7,9 @@
 
 #include <libILI9341.hpp>
 
-unsigned char saveSMCLK;
-unsigned int savePrescal;
-unsigned char saveUCCTL1;
+static unsigned char saveSMCLK;
+static unsigned int savePrescal;
+static unsigned char saveUCCTL1;
 
 void ILI9341::init() {
     unsigned int pos;
@@ -17,7 +17,6 @@ void ILI9341::init() {
     unsigned int j;
 
     WDT::init();
-    WDT::flag = 0;
     do {
         LPM0;           // pause de 5ms mini
     } while (WDT::flag < 3);
@@ -25,7 +24,6 @@ void ILI9341::init() {
     ILI9341::rstON();
 
     WDT::init();
-    WDT::flag = 0;
     do {
         LPM0;           // pause de 15ms mini
     } while (WDT::flag < 8);
@@ -33,7 +31,6 @@ void ILI9341::init() {
     ILI9341::rstOFF();
 
     WDT::init();
-    WDT::flag = 0;
     do {
         LPM0;           // pause de 15ms mini
     } while (WDT::flag < 8);
@@ -52,7 +49,6 @@ void ILI9341::init() {
     } while (--pos != 0);
 
     WDT::init();
-    WDT::flag = 0;
     do {
         LPM0;
     } while (WDT::flag < 62); // pause de 120ms
@@ -60,7 +56,6 @@ void ILI9341::init() {
     ILI9341::cmdON();
     ILI9341::send(0x29);
     WDT::init();
-    WDT::flag = 0;
     do {
         LPM0;           // pause de 15ms mini
     } while (WDT::flag < 8);
