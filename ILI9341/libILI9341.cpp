@@ -7,9 +7,9 @@
 
 #include <libILI9341.hpp>
 
-static unsigned char saveSMCLK;
-static unsigned int savePrescal;
-static unsigned char saveUCCTL1;
+unsigned char saveSMCLK;
+unsigned int savePrescal;
+unsigned char saveUCCTL1;
 
 void ILI9341::init() {
     unsigned int pos;
@@ -94,13 +94,18 @@ void ILI9341::fillrect(unsigned int x1, unsigned int y1, unsigned int x2, unsign
 
 void ILI9341::drawLine(unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, unsigned int c) {
     ILI9341::selectON();
+    if (x2 < x1) {
+        unsigned int t = x2;
+        x2 = x1;
+        x1 = t;
+    }
+    if (y2 < y1) {
+        unsigned int t = y2;
+        y2 = y1;
+        y1 = t;
+    }
     if (y1 == y2) {
         ILI9341::addr(x1, y1, x2, y2);
-        if (x2 < x1) {
-            unsigned int t = x2;
-            x2 = x1;
-            x1 = t;
-        }
         x2 -= x1;
         x2 += 2;
         do {
@@ -108,11 +113,6 @@ void ILI9341::drawLine(unsigned int x1, unsigned int y1, unsigned int x2, unsign
         } while (--x2 != 0);
     } else if (x1 == x2) {
         ILI9341::addr(x1, y1, x2, y2);
-        if (y2 < y1) {
-            unsigned int t = y2;
-            y2 = y1;
-            y1 = t;
-        }
         y2 -= y1;
         y2 += 2;
         do {
