@@ -56,7 +56,7 @@ Pour dessiner :
         - {x1, y1} : point de départ
         - {x2, y2} : point d'arrivée
         - c : couleur sur 16 bits à utiliser
- - ILI9341::drawInt(p, x, y, f, b, a, size);           // 0.77ms pour 5 chiffres
+ - ILI9341::drawInt(p, x, y, f, b, a, size);           // 0.77ms pour 5 chiffres petite taille
       * Dessine un entier positif
         - p : valeur non signée sur 16 bits à afficher
         - {x, y} : position gauche du premier chiffre ou droite du dernier chiffre
