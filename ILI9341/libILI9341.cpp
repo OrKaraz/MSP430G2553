@@ -94,17 +94,12 @@ void ILI9341::fillrect(unsigned int x1, unsigned int y1, unsigned int x2, unsign
 
 void ILI9341::drawLine(unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, unsigned int c) {
     ILI9341::selectON();
-    if (x2 < x1) {
-        unsigned int t = x2;
-        x2 = x1;
-        x1 = t;
-    }
-    if (y2 < y1) {
-        unsigned int t = y2;
-        y2 = y1;
-        y1 = t;
-    }
     if (y1 == y2) {
+        if (x2 < x1) {
+            unsigned int t = x2;
+            x2 = x1;
+            x1 = t;
+        }
         ILI9341::addr(x1, y1, x2, y2);
         x2 -= x1;
         x2 += 2;
@@ -112,6 +107,11 @@ void ILI9341::drawLine(unsigned int x1, unsigned int y1, unsigned int x2, unsign
             ILI9341::send16(c);
         } while (--x2 != 0);
     } else if (x1 == x2) {
+        if (y2 < y1) {
+            unsigned int t = y2;
+            y2 = y1;
+            y1 = t;
+        }
         ILI9341::addr(x1, y1, x2, y2);
         y2 -= y1;
         y2 += 2;
