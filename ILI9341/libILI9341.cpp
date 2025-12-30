@@ -105,6 +105,7 @@ void ILI9341::drawLine(unsigned int x1, unsigned int y1, unsigned int x2, unsign
         x2 += 2;
         do {
             ILI9341::send16(c);
+            __delay_cycles(5);
         } while (--x2 != 0);
     } else if (x1 == x2) {
         if (y2 < y1) {
@@ -117,6 +118,7 @@ void ILI9341::drawLine(unsigned int x1, unsigned int y1, unsigned int x2, unsign
         y2 += 2;
         do {
             ILI9341::send16(c);
+            __delay_cycles(5);
         } while (--y2 != 0);
     } else {
         int xinc, yinc, dx, dy, cumul;
