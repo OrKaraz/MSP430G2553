@@ -10,7 +10,7 @@
 
 #define ili9341SPIB0       // SPIA0 ou SPIB0
 #define ili9341rstP2       // ili9341rstPx : x étant le port (1, 2, 3) utilisé pour le Reset
-#define ili9341RESET BIT5  // informer du bit connecté
+#define ili9341RESET BIT2  // informer du bit connecté
 #define ili9341comP2       // ili9341comPx : x étant le port (1, 2, 3) utilisé pour le DC
 #define ili9341COMP BIT1   // bit du port com
 #define ili9341selP2       // ili9341selPx : x étant le port (1, 2, 3) utilisé pour le CS
@@ -59,7 +59,7 @@ namespace ILI9341 {
             0xC1, 2, 0x10, // Power control  SAP[2:0];BT[3:0]
             0xC5, 3, 0x3E, 0x28, // VCM control
             0xC7, 2, 0x86, // VCM control2
-            0x36, 2, 0xE8, // Memory Access Control  (28 -> mode paysage, 48 -> mode portrait, E8 -> paysage inverse (carte SD au dessus))
+            0x36, 2, 0x28, // Memory Access Control  (28 -> mode paysage, 48 -> mode portrait, E8 -> paysage inverse (carte SD au dessus))
             0x3A, 2, 0x55, // 66 -> 3 bytes/pixel ; 55 -> 2 bytes/pixel
             0xB1, 3, 0x00, 0x10, // 0x00, 0x1F (frequence d'affichage, 0x10 est le plus rapide environ 120Hz)
             0xB6, 4, 0x08, 0x82, 0x27, // Display Function Control
