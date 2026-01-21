@@ -9,12 +9,15 @@
 #define INCLUDE_LIBNRF24_HPP_
 
 #define NRF24SPIB0       // NRF24SPIxx : SPI utilisé (B0, A0, B1, A1, ...)
-#define NRF24selP2       // NRF24selPx : x étant le port (1, 2, 3) utilisé pour le CS
-#define NRF24selBIT BIT2 // NRF24selBIT : position de la broche
-//#define NRF24CEP2        // utilisation de la broche CE du module sur le port Px
-//#define NRF24CEBIT BIT1  // CE connecté à la broche numéro x
-//#define NRF24rstP2       // NRF24rstPx : x étant le port (1, 2, 3) utilisé pour le RESET
-//#define NRF24rstBIT BIT2 // NRF24rstBIT : position de la broche
+
+#define NRF24SELP2       // NRF24selPx : x étant le port (1, 2, 3) utilisé pour le CS
+#define NRF24SELBIT BIT4 // NRF24selBIT : position de la broche
+
+#define NRF24CEP2        // utilisation de la broche CE du module sur le port Px
+#define NRF24CEBIT BIT3  // CE connecté à la broche numéro x
+
+#define NRF24IRQP2       // NRF24IRQPx : x étant le port (1, 2, 3) utilisé pour le signal IRQ
+#define NRF24IRQBIT BIT5 // NRF24IRQBIT : position de la broche
 
 #define R_REGISTER 0x00
 #define W_REGISTER 0x20
@@ -149,20 +152,18 @@
 
 namespace NRF24 {
     void init();
-    void sendArray(unsigned char nb, unsigned char* l);
+    void setADDR(unsigned char *add, unsigned char p = 0);
+    void getADDR(unsigned char *add, unsigned char p = 0);
+    unsigned char setRegister(unsigned char r, unsigned char v);
+    unsigned char getRegister(unsigned char r, unsigned char *v);
 
     void selectON();
     void selectOFF();
 
     inline void send(unsigned char s);
-#if defined(NRF24CEP1) || defined(NRF24CEP2) || defined(NRF24CEP3)
-    inline void veille();
-    inline void reveil();
-#endif
-#if defined(NRF24rstP1) || defined(NRF24rstP2) || defined(NRF24rstP3)
-    inline void RESETON();
-    inline void RESETOFF();
-#endif
+    inline unsigned char get();
+    void CEON();
+    void CEOFF();
 
     const unsigned char tInit[] = {
         2,   // nombre de d'octet + 1
