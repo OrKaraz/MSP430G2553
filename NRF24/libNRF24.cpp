@@ -12,48 +12,89 @@ static unsigned int savePrescal;
 static unsigned char saveUCCTL1;
 
 void NRF24::init() {
-    unsigned char *l = (unsigned char *)NRF24::tInit;
-    // attente de 100ms du reveil
-    WDT::init();
-    do {
-        LPM0;
-    } while (WDT::flag < 53);
-    // envoyer la configuration
-    NRF24::sendArray(*l, l + 1);
-    // attendre 2ms d'action du power on
-    WDT::init();
     LPM0;
 }
 
-void NRF24::sendArray(unsigned char nb, unsigned char* l) {
+// TODO : ADDR 2 -> 5 seulement 1 oct
+void NRF24::setADDR(unsigned char *add, unsigned char p) {
+    if (p > 6) p = 6; // 6 = TXADDR
     NRF24::selectON();
-    if (!nb) return;
-
-    do {
-        #if defined(NRF24SPIA0)
-            while (!(IFG2 & UCA0TXIFG));
-        #elif defined(NRF24SPIB0)
-            while (!(IFG2 & UCB0TXIFG));
-        #endif
-        NRF24::send(*l);
-        l++;
-    } while (--nb);
-
-#if defined(NRF24SPIA0)
-    while (UCA0STAT & UCBUSY);
-#elif defined(NRF24SPIB0)
-    while (UCB0STAT & UCBUSY);
-#endif
-
+    NRF24::send(W_REGISTER | RX_ADDR_P0 + p);
+    for (int a = 4; a >= 0; a--) {
+        __delay_cycles(7);
+        NRF24::send(add[4-a]);
+    }
     NRF24::selectOFF();
 }
 
+// TODO : corriger le fait de devoir utiliser un tableau de 6 valeurs
+void NRF24::getADDR(unsigned char *add, unsigned char p) {
+    int a = 5;
+    if (p > 6) p = 6;
+    NRF24::selectON();
+    NRF24::send(RX_ADDR_P0 + p);
+    while (1) {
+        if (IFG2 & UCB0RXIFG) {
+            add[5-a] = NRF24::get();
+            a--;
+            if (a < 0) break;
+        }
+        if (IFG2 & UCB0TXIFG) NRF24::send(0); // si UCB0TXBUF est vide
+    }
+    NRF24::selectOFF();
+}
+
+unsigned char NRF24::setRegister(unsigned char r, unsigned char v) {
+    unsigned char ret;
+    r = r & 0x1F;
+    NRF24::selectON();
+    NRF24::send(W_REGISTER | r);
+    NRF24::send(v);
+    while (1) {
+        if (IFG2 & UCB0RXIFG) {
+            ret = NRF24::get();
+            break;
+        }
+    }
+    NRF24::selectOFF();
+    return ret;
+}
+
+unsigned char NRF24::getRegister(unsigned char r, unsigned char* v) {
+    unsigned char ret = 0;
+    r = r & 0x1F;
+    NRF24::selectON();
+    NRF24::send(r);
+    NRF24::send(0);
+    while (1) {
+        if (IFG2 & UCB0RXIFG) {
+            if (!ret) ret = NRF24::get();
+            else {
+                *v = NRF24::get();
+                break;
+            }
+        }
+    }
+    NRF24::selectOFF();
+    return ret;
+}
+
 inline void NRF24::send(unsigned char s) {
-    #if defined(NRF24SPIA0)
-        UCA0TXBUF = s;
-    #elif defined(NRF24SPIB0)
-        UCB0TXBUF = s;
-    #endif
+#ifdef NRF24SPIA0
+    UCA0TXBUF = s;
+#endif
+#ifdef NRF24SPIB0
+    UCB0TXBUF = s;
+#endif
+}
+
+inline unsigned char NRF24::get() {
+#ifdef NRF24SPIA0
+    return UCA0RXBUF;
+#endif
+#ifdef NRF24SPIB0
+    return UCB0RXBUF;
+#endif
 }
 
 void NRF24::selectON() {
@@ -63,7 +104,7 @@ void NRF24::selectON() {
     saveUCCTL1 = UCA0CTL1;
     UCA0CTL1 |= 0xC0;
     savePrescal = UCA0BR0 | (UCA0BR1 << 8);
-    UCA0BR0 = 1;
+    UCA0BR0 = 2;
     UCA0BR1 = 0;
 #endif
 #ifdef NRF24SPIB0
@@ -74,23 +115,25 @@ void NRF24::selectON() {
     UCB0BR1 = 0;
 #endif
 
-    #if defined(NRF24selP1)
-        P1OUT &= ~NRF24selBIT;
-    #elif defined(NRF24selP2)
-        P2OUT &= ~NRF24selBIT;
-    #elif defined(NRF24selP3)
-        P3OUT &= ~NRF24selBIT;
+    #if defined(NRF24SELP1)
+        P1OUT &= ~NRF24SELBIT;
+    #elif defined(NRF24SELP2)
+        P2OUT &= ~NRF24SELBIT;
+    #elif defined(NRF24SELP3)
+        P3OUT &= ~NRF24SELBIT;
     #endif
 }
 
 void NRF24::selectOFF() {
 // reload save vars
-    #if defined(NRF24selP1)
-        P1OUT |= NRF24selBIT;
-    #elif defined(NRF24selP2)
-        P2OUT |= NRF24selBIT;
-    #elif defined(NRF24selP3)
-        P3OUT |= NRF24selBIT;
+    while (UCB0STAT & 0x01); // tant que le SPI fonctionne, on attend
+    unsigned char v = NRF24::get(); // purge la dernière lecture valide
+    #if defined(NRF24SELP1)
+        P1OUT |= NRF24SELBIT;
+    #elif defined(NRF24SELP2)
+        P2OUT |= NRF24SELBIT;
+    #elif defined(NRF24SELP3)
+        P3OUT |= NRF24SELBIT;
     #endif
 
     BCSCTL2 = saveSMCLK; // restauration de l'état de SMCLK
@@ -106,46 +149,23 @@ void NRF24::selectOFF() {
 #endif
 }
 
-#if defined(NRF24CEP1) || defined(NRF24CEP2) || defined(NRF24CEP3)
-    inline void NRF24::veille() {
-        #if defined(NRF24CEP1)
-            P1OUT &= ~NRF24CEBIT;
-        #elif defined(NRF24CEP2)
-            P2OUT &= ~NRF24CEBIT;
-        #elif defined(NRF24CEP3)
-            P3OUT &= ~NRF24CEBIT;
-        #endif
-    }
-
-    inline void NRF24::reveil() {
-        #if defined(NRF24CEP1)
-            P1OUT |= NRF24CEBIT;
-        #elif defined(NRF24CEP2)
-            P2OUT |= NRF24CEBIT;
-        #elif defined(NRF24CEP3)
-            P3OUT |= NRF24CEBIT;
-        #endif
-    }
+// TODO : faire fonction Active/Desactive NRF et mettre CEON et CEOFF en inline
+void NRF24::CEON() {
+#if defined(NRF24CEP1)
+    P1OUT |= NRF24CEBIT;
+#elif defined(NRF24CEP2)
+    P2OUT |= NRF24CEBIT;
+#elif defined(NRF24CEP3)
+    P3OUT |= NRF24CEBIT;
 #endif
+}
 
-#if defined(NRF24rstP1) || defined(NRF24rstP2) || defined(NRF24rstP3)
-    inline void NRF24::RESETON() {
-        #if defined(NRF24rstP1)
-            P1OUT &= ~NRF24rstBIT;
-        #elif defined(NRF24rstP2)
-            P2OUT &= ~NRF24rstBIT;
-        #elif defined(NRF24rstP3)
-            P3OUT &= ~NRF24rstBIT;
-        #endif
-    }
-
-    inline void NRF24::RESETOFF() {
-        #if defined(NRF24rstP1)
-            P1OUT |= NRF24rstBIT;
-        #elif defined(NRF24rstP2)
-            P2OUT |= NRF24rstBIT;
-        #elif defined(NRF24rstP3)
-            P3OUT |= NRF24rstBIT;
-        #endif
-    }
+void NRF24::CEOFF() {
+#if defined(NRF24CEP1)
+    P1OUT &= ~NRF24CEBIT;
+#elif defined(NRF24CEP2)
+    P2OUT &= ~NRF24CEBIT;
+#elif defined(NRF24CEP3)
+    P3OUT &= ~NRF24CEBIT;
 #endif
+}
