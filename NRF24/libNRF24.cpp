@@ -21,7 +21,7 @@ void NRF24::setADDR(unsigned char *add, unsigned char p) {
     NRF24::selectON();
     NRF24::send(W_REGISTER | RX_ADDR_P0 + p);
     for (int a = 4; a >= 0; a--) {
-        __delay_cycles(7);
+        __delay_cycles(20);
         NRF24::send(add[4-a]);
     }
     NRF24::selectOFF();
@@ -49,13 +49,9 @@ unsigned char NRF24::setRegister(unsigned char r, unsigned char v) {
     r = r & 0x1F;
     NRF24::selectON();
     NRF24::send(W_REGISTER | r);
+    while (UCB0STAT & UCBUSY);
+    ret = NRF24::get();
     NRF24::send(v);
-    while (1) {
-        if (IFG2 & UCB0RXIFG) {
-            ret = NRF24::get();
-            break;
-        }
-    }
     NRF24::selectOFF();
     return ret;
 }
@@ -65,16 +61,11 @@ unsigned char NRF24::getRegister(unsigned char r, unsigned char* v) {
     r = r & 0x1F;
     NRF24::selectON();
     NRF24::send(r);
-    NRF24::send(0);
-    while (1) {
-        if (IFG2 & UCB0RXIFG) {
-            if (!ret) ret = NRF24::get();
-            else {
-                *v = NRF24::get();
-                break;
-            }
-        }
-    }
+    while (UCB0STAT & UCBUSY);
+    ret = NRF24::get();
+    NRF24::send(ret);
+    while (UCB0STAT & UCBUSY);
+    *v = NRF24::get();
     NRF24::selectOFF();
     return ret;
 }
