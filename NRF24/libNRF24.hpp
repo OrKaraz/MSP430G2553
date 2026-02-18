@@ -152,8 +152,8 @@
 
 namespace NRF24 {
     void init();
-    void setADDR(unsigned char *add, unsigned char p = 0);
-    void getADDR(unsigned char *add, unsigned char p = 0);
+    void setRegistreMult(char nb, unsigned char *add);
+    void getRegistreMult(char nb, unsigned char *add);
     unsigned char setRegister(unsigned char r, unsigned char v);
     unsigned char getRegister(unsigned char r, unsigned char *v);
 
