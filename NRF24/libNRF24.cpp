@@ -15,32 +15,26 @@ void NRF24::init() {
     LPM0;
 }
 
-// TODO : ADDR 2 -> 5 seulement 1 oct
-void NRF24::setADDR(unsigned char *add, unsigned char p) {
-    if (p > 6) p = 6; // 6 = TXADDR
+void NRF24::setRegistreMult(char nb, unsigned char *add) {
     NRF24::selectON();
-    NRF24::send(W_REGISTER | RX_ADDR_P0 + p);
-    for (int a = 4; a >= 0; a--) {
-        __delay_cycles(20);
-        NRF24::send(add[4-a]);
-    }
+    NRF24::send(W_REGISTER | *add);
+    do {
+        while (!(IFG2 & UCB0TXIFG));
+        add++;
+        NRF24::send(*add);
+    } while ((--nb) != 0);
     NRF24::selectOFF();
 }
 
-// TODO : corriger le fait de devoir utiliser un tableau de 6 valeurs
-void NRF24::getADDR(unsigned char *add, unsigned char p) {
-    int a = 5;
-    if (p > 6) p = 6;
+void NRF24::getRegistreMult(char nb, unsigned char *add) {
     NRF24::selectON();
-    NRF24::send(RX_ADDR_P0 + p);
-    while (1) {
-        if (IFG2 & UCB0RXIFG) {
-            add[5-a] = NRF24::get();
-            a--;
-            if (a < 0) break;
-        }
-        if (IFG2 & UCB0TXIFG) NRF24::send(0); // si UCB0TXBUF est vide
-    }
+    NRF24::send(*add);
+    do {
+        while (!(IFG2 & UCB0RXIFG));
+        add++;
+        NRF24::send(*add);
+        *(add-1) = NRF24::get();
+    } while (--nb);
     NRF24::selectOFF();
 }
 
@@ -62,8 +56,8 @@ unsigned char NRF24::getRegister(unsigned char r, unsigned char* v) {
     NRF24::selectON();
     NRF24::send(r);
     while (UCB0STAT & UCBUSY);
-    ret = NRF24::get();
     NRF24::send(ret);
+    ret = NRF24::get();
     while (UCB0STAT & UCBUSY);
     *v = NRF24::get();
     NRF24::selectOFF();
