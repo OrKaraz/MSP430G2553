@@ -22,18 +22,19 @@ void NRF24::setRegistreMult(char nb, unsigned char *add) {
         while (!(IFG2 & UCB0TXIFG));
         add++;
         NRF24::send(*add);
-    } while ((--nb) != 0);
+    } while (--nb);
     NRF24::selectOFF();
 }
 
 void NRF24::getRegistreMult(char nb, unsigned char *add) {
     NRF24::selectON();
     NRF24::send(*add);
+    *add = NRF24::get();
     do {
         while (!(IFG2 & UCB0RXIFG));
+        NRF24::send(0);
+        *add = NRF24::get();
         add++;
-        NRF24::send(*add);
-        *(add-1) = NRF24::get();
     } while (--nb);
     NRF24::selectOFF();
 }
